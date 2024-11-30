@@ -1,6 +1,8 @@
 const user = require("../db/models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 
 const generateToken = (payload) => {
     return jwt.sign(payload, process.env.JWT_SECRET_KEY, {
@@ -8,16 +10,13 @@ const generateToken = (payload) => {
     })
 }
 
-const signup = async (req, res, next) =>{
+const signup = catchAsync (async (req, res, next) =>{
     const body = req.body;
 
     // only Trainer and Trainee can do the signup
     if(!["1", "2"].includes(body.userType)){
         // error response
-        return res.status(400).json({
-                status: "fail",
-                message: "Invalid User Type",
-        });
+        throw new AppError("Invalid User Type");
     }
 
     // insert data
@@ -34,6 +33,12 @@ const signup = async (req, res, next) =>{
 
     const result = newUser.toJSON();
 
+    // checking condition
+    if(!result){
+        // error response
+        return next(new AppError("Failed to create new user.", 400));
+   }
+
     delete result.password;
     delete result.deletedAt;
 
@@ -43,39 +48,26 @@ const signup = async (req, res, next) =>{
     });
 
 
-    // checking condition
-    if(!result){
-         // error response
-         return res.status(400).json({
-            status: "fail",
-            message: "Failed to create new user.",
-    });
-    }
+    
 
     return res.status(201).json({
         status: "success",
         data: result,
     });
-};
+});
 
-const login = async (req, res, next) => {
+const login = catchAsync (async (req, res, next) => {
     const {email, password} = req.body;
 
     if(!email || !password) {
-        return res.status(400).json({
-            status: "fail",
-            message: "Please provide email and password.",
-        });
+        return next(new AppError("Please provide email and password.", 400));
     }
 
     //fetch the user from database
     const result = await user.findOne({where: { email }});
     //compare email, password and match
     if(!result || !(await bcrypt.compare(password, result.password))){
-        return res.status(401).json({
-            status: "fail",
-            message: "Incorrect email or password.",
-        });
+        return next(new AppError("Incorrect email or password.", 401));
     }
 
     // generate token
@@ -87,7 +79,7 @@ const login = async (req, res, next) => {
         status: "success",
         token,
     });
-}
+});
 
 
 module.exports = { signup, login };
