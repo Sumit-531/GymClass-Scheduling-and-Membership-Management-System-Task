@@ -4,6 +4,9 @@ const express = require("express");
 const authRouter = require("./route/authRoute.js")
 const app = express();
 
+// will do conversion in json format
+app.use(express.json());
+
 // creating a route to check
 app.get("/", (req, res) =>{
     res.status(200).json({
