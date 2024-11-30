@@ -4,6 +4,7 @@ const {
   DataTypes
 } = require('sequelize');
 const sequelize = require('../../config/database');
+const bcrypt = require('bcrypt');
 
 module.exports = sequelize.define("user", {
       id: {
@@ -30,7 +31,18 @@ module.exports = sequelize.define("user", {
     },
     confirmedPassword: {
       // Using virtual to store in the program only, not in the database
-      type: DataTypes.VIRTUAL
+      type: DataTypes.VIRTUAL,
+      // Checking password
+      set(value){
+        if(value === this.password){
+          // password hashing with bcrypt
+          const hashPassword = bcrypt.hashSync(value, 10);
+          // password value will updated to the hashPassword
+          this.setDataValue("password", hashPassword);       
+        } else {
+            throw new Error("Password and confirmed password must be same.");
+        }
+      }
     },
     createdAt: {
       allowNull: false,
