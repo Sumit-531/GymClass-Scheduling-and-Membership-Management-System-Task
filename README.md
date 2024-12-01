@@ -4,6 +4,7 @@ Technology Stack: Node.js, Express, Postgres & SequelizeORM, REST APIs
 
 API Endpoints:
 Demo result:
+Signup:
 http://localhost:3000/api/v1/auth/signup/
 
 {
@@ -31,7 +32,7 @@ http://localhost:3000/api/v1/auth/signup/
 
 
 ==================================
-
+Login:
 http://localhost:3000/api/v1/auth/login/
 
 {
