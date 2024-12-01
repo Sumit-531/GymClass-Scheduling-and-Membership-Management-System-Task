@@ -44,6 +44,7 @@ module.exports = {
       // Foregin key
       createdBy: {
         type: Sequelize.INTEGER,
+        allowNull: true,
         references: {
           model: 'user', // Admin who created the schedule
           key: 'id',
