@@ -2,6 +2,7 @@ require("dotenv").config({path: `${process.cwd()}/.env`})
 const express = require("express");
 
 const authRouter = require("./route/authRoute.js");
+const classScheduleRouter = require("./route/classScheduleRoute.js");
 const catchAsync = require("./utils/catchAsync.js");
 const AppError = require("./utils/appError.js");
 const { stack } = require("sequelize/lib/utils");
@@ -14,6 +15,7 @@ app.use(express.json());
 
 // all router will be here
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/classSchedules", classScheduleRouter);
 
 
 

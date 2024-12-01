@@ -81,5 +81,8 @@ const login = catchAsync (async (req, res, next) => {
     });
 });
 
+const authentication = catchAsync(async(req, res, next) => {
+    
+})
 
 module.exports = { signup, login };
