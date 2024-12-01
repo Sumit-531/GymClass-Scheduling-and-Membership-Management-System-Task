@@ -11,7 +11,6 @@ const createClassSchedule = catchAsync(async(req, res, next) => {
         endTime: body.endTime,
         trainerId: body.trainerId,
         maxTrainees: body.maxTrainees || 10, 
-        currentTrainees: 0,
         createdBy: userId,
     });
 
@@ -63,7 +62,6 @@ const updateClassSchedule = catchAsync(async (req, res, next) => {
         result.endTime = body.endTime;
         result.trainerId = body.trainerId;
         result.maxTrainees = body.maxTrainees || 10; 
-        result.currentTrainees = 0,
         result.createdBy = userId;
 
     const updatedResult = await result.save();

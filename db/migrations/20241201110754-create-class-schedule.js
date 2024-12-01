@@ -36,11 +36,6 @@ module.exports = {
         allowNull: false,
         defaultValue: 10,
       },
-      currentTrainees: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-      },
       // Foregin key
       createdBy: {
         type: Sequelize.INTEGER,

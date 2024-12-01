@@ -67,16 +67,6 @@ module.exports = sequelize.define(
         },
       },
     },
-    currentTrainees: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-      validate: {
-        min: {
-          args: 0,
-          msg: 'Current trainees cannot be negative',
-        },
-      },
-    },
     createdBy: {
       type: DataTypes.INTEGER,
       allowNull: false,
